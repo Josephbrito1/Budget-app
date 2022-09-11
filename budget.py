@@ -1,8 +1,7 @@
-
-class Category:
+ class Category:
     def __init__(self, categorie):
         self.name=categorie
-        self.ledger=[] #saldo 
+        self.ledger=[] #saldo Guardado
         self.balance=0.0
         
     def __str__(self) -> str:
@@ -13,23 +12,25 @@ class Category:
         description=''
         self.ledger.append({'amount':amount, 'description': description})
         self.balance+=amount #cuando se utiliza el simbolo "+=" es que se le esta sumando a get balance
-        print (f'el balance en los depositos es de {self.balance}')
         
-    def withdraw(self, amount, description):        
+        
+    def withdraw(self, amount, description='undefined'):        
        description=''
        if (self.check_funds(amount)):
            self.ledger.append({'amount': -amount, 'description': description}) 
            return True
-       return False 
+       return False
+         
        
     def  get_balance(self):
         return self.balance    
     
-    def transfer(self, amount, category): 
+    def transfer(self, amount,  category): 
         if (self.check_funds(amount)):
-            self.withdraw(amount, "transfer to",category.name)
-            category.deposit(amount, "transfer from", self.name)
-            return True
+            self.withdraw(amount, category.name) #"transfer to",
+            category.deposit(amount,  self.name) #"transfer from",                  
+            return f'the transfer  it was  successfully from {self.name} to {category.name}'
+             
         return False
     
     def check_funds(self, amount):
@@ -37,22 +38,30 @@ class Category:
         if (self.balance >= amount):
             return True
         return False 
-#esto que esta aqui abajo solo son pruebas para ver si funcionaba la app           
+ #estas son simples pruebas que tambien se encuentran en el main.py         
 #food = Category("Food")
-#print(food.deposit(1000, "initial deposit"))
-#print(food.withdraw(10.15, "groceries"))
-#print(food.withdraw(15.89, "restaurant and more food for dessert"))
-#print(food.balance)
+#food.deposit(1000, "initial deposit")
+#food.withdraw(10.15, "groceries")
+#food.withdraw(15.89, "restaurant and more food for dessert")
+#print(food.get_balance())
+#clothing = Category("Clothing")
+#print(food.transfer(50, clothing))
+#clothing.withdraw(25.55)
+#clothing.withdraw(100)
+#auto = Category("Auto")
+#auto.deposit(1000, "initial deposit")
+#auto.withdraw(15)
+
 
     
 def create_spend_chart(categories):
     
-    column="persentage spend by category\n"
+    row="persentage spend by category\n"
     for i in range(100, -1, -10):
-        column += f"{str(i)+'/':>4}\n"
+        row += f"{str(i)+'/':>4}\n"
         
-    print(column) 
+    print(row) 
     
-create_spend_chart([])       
+create_spend_chart([])  
     
     
